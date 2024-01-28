@@ -255,7 +255,7 @@ def whitelist(op, arg3, arg4):
 def main():
     global SETTINGS
     try:
-        with open('config.json','r') as config:
+        with open('properties.json','r') as config:
             SETTINGS = json.load(config)
             print(SETTINGS)
     except Exception as e:
