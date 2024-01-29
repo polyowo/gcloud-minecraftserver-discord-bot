@@ -44,6 +44,11 @@ async def on_ready():
         print(f'unknown exception: {e}')
         exit(1)
 
+    for i in IP_MAPPING:
+        print(i)
+        print(IP_MAPPING[i])
+        if getPlayer(i)[1] > -1 and IP_MAPPING[i] != None:
+            task = asyncio.create_task(startServerTimer(i))
     print("im ready!")
 
 @client.command()
@@ -136,6 +141,7 @@ def checkServerList():
     return raw_serverlist, formatted_serverlist
 
 def startServer(servername):
+     pingCounter = 0
     if servername == None:
         return 'missing server name, please use \"$mc help\" for more information.'
 
@@ -148,7 +154,9 @@ def startServer(servername):
         else:
             instance_client.start(project=SETTINGS['GCLOUD_PROJECT_ID'],zone=SETTINGS['GCLOUD_PROJECT_ZONE'],instance=servername)
             while getPlayer(servername)[1] < 0:
-                print('tesing survival.')
+                if pingCounter > 20:
+                    raise Exception("Timeout, something wrong with the server. Please try again in few minutes.")
+                print(f'tesing survival. {getPlayer(servername)[0]}{pingCounter}')
                 time.sleep(5)
             task = asyncio.create_task(startServerTimer(servername))
             return f'server \"{servername}\" started successfully!'
