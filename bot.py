@@ -150,6 +150,7 @@ def startServer(servername):
 
     if servername in servList:
         if servList[servername] == 'online':
+            task = asyncio.create_task(startServerTimer(servername))
             return 'the server you try to start is already running.'
         else:
             instance_client.start(project=SETTINGS['GCLOUD_PROJECT_ID'],zone=SETTINGS['GCLOUD_PROJECT_ZONE'],instance=servername)
