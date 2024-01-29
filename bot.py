@@ -189,7 +189,7 @@ async def startServerTimer(servername):
         if getPlayer(servername)[1] > 0:
             TIME_COUNT = 0
             await asyncio.sleep(10)
-            print('there is player')
+            print(f'{servername}: there is player')
         else:
             TIME_COUNT = TIME_COUNT + 1
             await asyncio.sleep(1)
